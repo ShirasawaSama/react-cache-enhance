@@ -4,7 +4,7 @@ import Cache from './Cache'
 import { ResponseTypes } from './constants'
 
 export default (input: RequestInfo, init?: RequestInit, type?: ResponseTypes,
-  fetcher = fetch, cache?: Cache<RequestInit, any>) => {
+  fetcher = fetch, cache?: Cache<RequestInit, any>): any => {
   const ref = useRef<(input: RequestInfo, init?: RequestInit, type?: ResponseTypes,
     fetcher?: typeof fetch) => any>()
   if (!ref.current) {

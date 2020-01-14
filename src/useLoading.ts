@@ -2,9 +2,13 @@ import { useState, useRef } from 'react'
 import { ERROR_NOT_A_PROMISE, PromiseReturned } from './constants'
 
 export default <T extends () => PromiseLike<any>, V = PromiseReturned<T>>
-(fn: T, onError?: (e: any, promise: ReturnType<T>) => any, init: V | (() => V) = undefined, isFunction = false) => {
+(fn: T, onError?: (e: any, promise: ReturnType<T>) => any, init: V | (() => V) = undefined, isFunction = false): {
+  loading: boolean
+  value: V
+  error: any
+} => {
   const ref = useRef(false)
-  const [value, setValue] = useState(ref.current && (isFunction ? (init as any)() : init))
+  const [value, setValue] = useState(ref.current ? undefined : (isFunction ? (init as any)() : init))
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   if (!ref.current) {
