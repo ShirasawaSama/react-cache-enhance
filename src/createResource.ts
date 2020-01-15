@@ -10,11 +10,11 @@ export default <T extends (...args: any) => PromiseLike<any>, K = Parameters<T>[
   if (cache.has(key)) v = cache.get(key)
   else {
     v = fetch.apply(null, arguments as any)
-    if (typeof v?.then !== 'function') throw new TypeError(ERROR_NOT_A_PROMISE)
+    if (v && typeof v.then !== 'function') throw new TypeError(ERROR_NOT_A_PROMISE)
     v.then((r: any) => (cache.set(key, r), r))
     v[SUSPENSE] = true
     cache.set(key, v)
   }
-  if (v?.[SUSPENSE]) throw v
+  if (v && v[SUSPENSE]) throw v
   else return v
 } as ((...args: Parameters<T>) => V)

@@ -14,7 +14,7 @@ export default <T extends () => PromiseLike<any>, V = PromiseReturned<T>>
   if (!ref.current) {
     ref.current = true
     const p = fn()
-    if (typeof p?.then !== 'function') {
+    if (p && typeof p.then !== 'function') {
       setLoading(false)
       throw new TypeError(ERROR_NOT_A_PROMISE)
     }
